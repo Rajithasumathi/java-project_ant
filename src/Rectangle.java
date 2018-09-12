@@ -1,13 +1,13 @@
-public class rectangle {
+public class Rectangle {
 public int length;
 public int width;
 
-public rectangle(int length, int width) {
+public Rectangle (int length, int width) {
 this.length = length;
 this.width = width;
 }
 
-public int getarea() {
+public int getArea() {
 return length * width;
 }
 

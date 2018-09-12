@@ -1,4 +1,4 @@
-public class rectangulator {
+public class Rectangulator {
 public static void main(string[] args) {
 int length = Integer.parseInt(args[0]);
 
