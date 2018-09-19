@@ -22,10 +22,15 @@ pipeline  {
      }
 
    }
-
+stage("Running on centos") {
+steps {
+sh "wget http://zippyops/rectangles/all/rectangle_${env.BUILD_NUMBER}.jar"}
+sh "java -jar rectangle_${env.BUILD_NUMBER}.jar 3 4"
   }
-
- post {
+}
+ 
+}
+post {
     always {
      archiveArtifacts artifacts: 'dist/*.jar', fingerprint: true
     }
