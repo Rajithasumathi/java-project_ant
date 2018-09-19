@@ -1,46 +1,36 @@
-<<<<<<< HEAD
-pipeline
-agent any
-options{
+pipeline  {
+   agent {
+     label 'master'
+    }
+  stages {
+     stage('unit Tests') {
+      steps {
+        sh 'ant -f test.xml -v'
+        junit 'reports/result.xml'
+       }
+     }
 
-buildDiscards(logRotator(numTokeepstr: '2', artifactsNumTokeepstr: '1'))
-}
-stages {
-stage('build') {
-steps {
-sh 'ant sh 'ant -f build.xml'
-}
-}
-stage('unit Test'){
-steps{
-junit 'reports/results.xml'
-=======
-pipeline {
-
-  agent any
-
-   stages {
     stage('build') {
-     steps {
-       sh 'ant -f build.xml'
->>>>>>> 256383db599dfa905bbf86710b0a22eafcb0a4ac
-}
+       steps {
+       sh 'ant -f build.xml -v'
+       }
+      }
+    stage('deploy') {
+      steps {
+      sh "cp dist/rectangle_${env.BUILD_NUMBER}.jar /var/www/html/rectangles/all/"
+     }
+   }
+  stage("Running on centos") {
+    steps {
 
+        sh "wget http://jenkins.masterzippyops.com/rectangles/all/rectangle_${env.BUILD_NUMBER}.jar"
+        sh "java -jar rectangle_${env.BUILD_NUMBER}.jar 3 4"
+     }
+   }
 }
-
-}
-post {
-  always {
-<<<<<<< HEAD
-   archiveArtifacts artifacts:  'dist/*.jar', fingerprint: true
-}
-
-}
-=======
-   archiveArtifacts artifacts: 'dist/*.jar', fingerprint: true
-}
-
-}
-
->>>>>>> 256383db599dfa905bbf86710b0a22eafcb0a4ac
+ post {
+    always {
+     archiveArtifacts artifacts: 'dist/*.jar', fingerprint: true
+    }
+  }
 }
